@@ -15,6 +15,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
           description: "Description for Sample Task 1",
           deadline: dateService.formatDate(),
           completed: false,
+          disabled: false,
         },
         {
           _id: "24f90006-5a1c-466c-b234-1518eca05dd6",
@@ -22,6 +23,23 @@ const TodoItem = ({ todoList, setTodoList }) => {
           description: "Description for Sample Task 2",
           deadline: dateService.formatDate(),
           completed: false,
+          disabled: false,
+        },
+        {
+          _id: "c6fb91c4-ab0a-47fb-972b-e0ecf706f123",
+          title: "Expired Task",
+          description: "Description for Expired Task",
+          deadline: "2022-01-01",
+          completed: false,
+          disabled: false,
+        },
+        {
+          _id: "e6fb91c4-ab0a-47fb-972b-e0ecf706f456",
+          title: "Disabled Task",
+          description: "Description for Disabled Task",
+          deadline: dateService.formatDate(),
+          completed: false,
+          disabled: true,
         },
       ];
       setTodoList(sampleTodoList);
@@ -46,6 +64,48 @@ const TodoItem = ({ todoList, setTodoList }) => {
   const deleteTask = (taskId) => {
     const updatedTodoList = todoList.filter((task) => task._id !== taskId);
     setTodoList(updatedTodoList);
+  };
+
+  const completeTask = (taskId) => {
+    const updatedTodoList = todoList.map((task) =>
+      task._id === taskId && !task.expired && !task.disabled
+        ? { ...task, completed: true }
+        : task
+    );
+
+    setTodoList(updatedTodoList);
+    checkTodoListCompletion(updatedTodoList);
+  };
+
+  const uncompleteTask = (taskId) => {
+    const updatedTodoList = todoList.map((task) =>
+      task._id === taskId && task.completed
+        ? { ...task, completed: false }
+        : task
+    );
+
+    setTodoList(updatedTodoList);
+    uncompleteTodoList();
+  };
+
+  const checkTodoListCompletion = (updatedTodoList) => {
+    const allCompleted = updatedTodoList.every((task) => task.completed);
+    if (allCompleted) {
+      // Mark the Todo List as completed
+      setTodoList((prevTodoList) =>
+        prevTodoList.map((task) => ({ ...task, completed: true }))
+      );
+    }
+  };
+
+  const uncompleteTodoList = () => {
+    // Check if any task is still completed, if not, mark the Todo List as uncompleted
+    const anyTaskCompleted = todoList.some((task) => task.completed);
+    if (!anyTaskCompleted) {
+      setTodoList((prevTodoList) =>
+        prevTodoList.map((task) => ({ ...task, completed: false }))
+      );
+    }
   };
 
   return (
@@ -113,7 +173,17 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <button onClick={() => editTask(task._id)}>Edit Task</button>
             )}
             <button onClick={() => deleteTask(task._id)}>Delete Task</button>
-            <button>Complete Task</button>
+
+            <button
+              onClick={() =>
+                task.completed
+                  ? uncompleteTask(task._id)
+                  : completeTask(task._id)
+              }
+              disabled={task.expired || task.disabled}
+            >
+              {task.completed ? "Incomplete Task" : "Complete Task"}
+            </button>
           </td>
         </tr>
       ))}
