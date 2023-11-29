@@ -39,7 +39,6 @@ const TodoItem = ({ todoList, setTodoList }) => {
           description: "Description for Disabled Task",
           deadline: dateService.formatDate(),
           completed: false,
-          disabled: true,
         },
       ];
       setTodoList(sampleTodoList);
@@ -106,6 +105,12 @@ const TodoItem = ({ todoList, setTodoList }) => {
         prevTodoList.map((task) => ({ ...task, completed: false }))
       );
     }
+  };
+
+  const isTaskExpired = (task) => {
+    const deadlineDate = new Date(task.deadline);
+    const currentDate = new Date();
+    return deadlineDate < currentDate;
   };
 
   return (
@@ -180,7 +185,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
                   ? uncompleteTask(task._id)
                   : completeTask(task._id)
               }
-              disabled={task.expired || task.disabled}
+              disabled={isTaskExpired(task) || task.disabled}
             >
               {task.completed ? "Incomplete Task" : "Complete Task"}
             </button>
