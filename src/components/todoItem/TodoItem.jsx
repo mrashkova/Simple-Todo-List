@@ -32,6 +32,11 @@ const TodoItem = ({ todoList, setTodoList }) => {
     }
   }, []);
 
+  const deleteTask = (taskId) => {
+    const updatedTodoList = todoList.filter((task) => task._id !== taskId);
+    setTodoList(updatedTodoList);
+  };
+
   return (
     <>
       {todoList.map((task) => (
@@ -45,7 +50,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <button>Cancel</button>
             </>
             <button>Edit Task</button>
-            <button>Delete Task</button>
+            <button onClick={() => deleteTask(task._id)}>Delete Task</button>
             <button>Complete Task</button>
           </td>
         </tr>
