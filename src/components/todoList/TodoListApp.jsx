@@ -29,6 +29,11 @@ const TodoListApp = () => {
     }
   };
 
+  const isTodoListCompleted = (todoList) =>
+    todoList.every((task) => task.completed);
+
+  const isAllTasksCompleted = isTodoListCompleted(todoList);
+
   return (
     <div>
       <div>
@@ -45,7 +50,6 @@ const TodoListApp = () => {
             <TodoItem todoList={todoList} setTodoList={setTodoList} />
           </tbody>
         </table>
-        <p>Todo List Completed:</p>
 
         <input
           type="text"
@@ -72,6 +76,8 @@ const TodoListApp = () => {
 
         <button onClick={addTask}>Add Task</button>
       </div>
+
+      {isAllTasksCompleted && <p>All tasks are completed!</p>}
     </div>
   );
 };
