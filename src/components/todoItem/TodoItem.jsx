@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 
 import * as dateService from "../../services/dateService";
 
-const TodoItem = () => {
-  const [todoList, setTodoList] = useState([]);
+const TodoItem = ({ todoList, setTodoList }) => {
+  // const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem("todoList", JSON.stringify(todoList));
+    const storedTodoList = JSON.parse(localStorage.getItem("todoList")) || [];
 
-    if (todoList.length === 0) {
+    if (storedTodoList.length === 0) {
       const sampleTodoList = [
         {
           _id: "b6fb91c4-ab0a-47fb-972b-e0ecf706f638",
@@ -26,8 +26,11 @@ const TodoItem = () => {
         },
       ];
       setTodoList(sampleTodoList);
+      localStorage.setItem("todoList", JSON.stringify(todoList));
+    } else {
+      setTodoList(storedTodoList);
     }
-  }, [todoList]);
+  }, []);
 
   return (
     <>
