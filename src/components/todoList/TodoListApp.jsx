@@ -1,13 +1,11 @@
 import React from "react";
+import TodoItem from "../todoItem/TodoItem";
 
 const TodoListApp = () => {
   return (
     <div>
       <div>
-        <h2>
-          Todo List
-          <button>Delete</button>
-        </h2>
+        <h2>Todo List</h2>
         <table>
           <thead>
             <tr>
@@ -18,26 +16,7 @@ const TodoListApp = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="date" />
-              </td>
-              <td>
-                <>
-                  <button>Save</button>
-                  <button>Cancel</button>
-                </>
-                <button>Edit Task</button>
-                <button>Delete Task</button>
-                <button>Complete Task</button>
-              </td>
-            </tr>
+            <TodoItem />
           </tbody>
         </table>
         <p>Todo List Completed:</p>
