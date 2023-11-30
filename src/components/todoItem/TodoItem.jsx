@@ -123,7 +123,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
     <>
       {todoList.map((task) => (
         <tr key={task._id}>
-          <td>
+          <td className="border border-slate-700">
             {editedTask && editedTask._id === task._id ? (
               <input
                 type="text"
@@ -140,7 +140,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p>{task.title}</p>
             )}
           </td>
-          <td>
+          <td className="border border-slate-700">
             {editedTask && editedTask._id === task._id ? (
               <input
                 type="text"
@@ -157,7 +157,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p>{task.description}</p>
             )}
           </td>
-          <td>
+          <td className="border border-slate-700">
             {editedTask && editedTask._id === task._id ? (
               <input
                 type="date"
@@ -174,7 +174,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p>{task.deadline}</p>
             )}
           </td>
-          <td>
+          <td className="border border-slate-700 pt-6">
             {editedTask && editedTask._id === task._id ? (
               <>
                 <button onClick={() => saveEditedTask(task._id)}>Save</button>

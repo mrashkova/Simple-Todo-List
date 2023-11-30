@@ -39,13 +39,13 @@ const TodoListApp = () => {
   return (
     <div>
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Deadline</th>
-              <th>Actions</th>
+        <table className="table-auto border-spacing-2 border border-slate-500 pt-6">
+          <thead className="pt-6">
+            <tr className="pt-6">
+              <th className="border border-slate-600 pt-6">Title</th>
+              <th className="border border-slate-600 mx-8">Description</th>
+              <th className="border border-slate-600">Deadline</th>
+              <th className="border border-slate-600">Actions</th>
             </tr>
           </thead>
           <tbody>
