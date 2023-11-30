@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import * as dateService from "../../services/dateService";
 
 const TodoItem = ({ todoList, setTodoList }) => {
@@ -10,7 +12,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
     if (storedTodoList.length === 0) {
       const sampleTodoList = [
         {
-          _id: "b6fb91c4-ab0a-47fb-972b-e0ecf706f638",
+          _id: uuidv4(),
           title: "Sample Task 1",
           description: "Description for Sample Task 1",
           deadline: dateService.formatDate(),
@@ -18,7 +20,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
           disabled: false,
         },
         {
-          _id: "24f90006-5a1c-466c-b234-1518eca05dd6",
+          _id: uuidv4(),
           title: "Sample Task 2",
           description: "Description for Sample Task 2",
           deadline: dateService.formatDate(),
@@ -26,7 +28,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
           disabled: false,
         },
         {
-          _id: "c6fb91c4-ab0a-47fb-972b-e0ecf706f123",
+          _id: uuidv4(),
           title: "Expired Task",
           description: "Description for Expired Task",
           deadline: "2022-01-01",
@@ -34,18 +36,22 @@ const TodoItem = ({ todoList, setTodoList }) => {
           disabled: false,
         },
         {
-          _id: "e6fb91c4-ab0a-47fb-972b-e0ecf706f456",
+          _id: uuidv4(),
           title: "Disabled Task",
           description: "Description for Disabled Task",
           deadline: dateService.formatDate(),
           completed: false,
         },
       ];
+
       setTodoList(sampleTodoList);
     } else {
       setTodoList(storedTodoList);
     }
   }, [setTodoList]);
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   const editTask = (taskId) => {
     setEditedTask({ ...todoList.find((task) => task._id === taskId) });

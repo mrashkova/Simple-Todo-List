@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import TodoItem from "../todoItem/TodoItem";
 
 const TodoListApp = () => {
@@ -12,7 +14,7 @@ const TodoListApp = () => {
   const addTask = () => {
     if (newTask.title && newTask.description && newTask.deadline) {
       const addedTask = {
-        _id: Date.now().toString(),
+        _id: uuidv4(),
         ...newTask,
         complete: false,
       };
