@@ -1,4 +1,3 @@
-import "./App.css";
 import Header from "./components/header/Header";
 import TodoListApp from "./components/todoList/TodoListApp";
 import Footer from "./components/footer/Footer";
