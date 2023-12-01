@@ -1,21 +1,16 @@
 export const formatTodaysDate = () => {
   const today = new Date();
-  const day = today.getDate();
-  const month = today.getMonth() + 1;
-  const year = today.getFullYear();
-
-  const fomatedDate = `${day}/${month}/${year}`;
-
-  return fomatedDate;
+  return formatDate(today);
 };
 
 export const formatExpiredDate = () => {
   const expired = new Date("November 28, 2023 14:00:00");
-  const day = expired.getDate();
-  const month = expired.getMonth() + 1;
-  const year = expired.getFullYear();
+  return formatDate(expired);
+};
 
-  const fomatedDate = `${day}/${month}/${year}`;
-
-  return fomatedDate;
+export const formatDate = (date) => {
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };
