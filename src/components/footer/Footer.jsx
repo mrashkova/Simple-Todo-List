@@ -1,17 +1,11 @@
-import styles from "./Footer.module.css";
+import React from "react";
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <p>Created and designed by Mariya Rashkova</p>
-      <div className={styles.footerSocial}>
-        <a href="https://www.linkedin.com/in/mrashkova/">
-          <i className="fa fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/mrashkova">
-          <i className="fa fa-github"></i>
-        </a>
-      </div>
+    <footer className="text-xl bg-gray-light p-3  flex flex-col">
+      <p className="text-center flex-1">
+        Created and designed by Mariya Rashkova
+      </p>
     </footer>
   );
 }
