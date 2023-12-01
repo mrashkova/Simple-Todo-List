@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import * as dateService from "../../services/dateService";
 
@@ -65,6 +67,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
     );
 
     setTodoList(updatedTodoList);
+    checkTodoListCompletion(updatedTodoList);
     setEditedTask(null);
   };
 
@@ -84,7 +87,18 @@ const TodoItem = ({ todoList, setTodoList }) => {
       setTodoList(updatedTodoList);
       checkTodoListCompletion(updatedTodoList);
     } else {
-      console.log("Cannot complete an expired task.");
+      const updatedTodoList = todoList.map((task) =>
+        task._id === taskId
+          ? {
+              ...task,
+              completed: false,
+              // disabled: false,
+            }
+          : task
+      );
+
+      setTodoList(updatedTodoList);
+      checkTodoListCompletion(updatedTodoList);
     }
   };
 
@@ -174,24 +188,37 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p>{task.description}</p>
             )}
           </td>
-          <td className="border-gray-light border  p-1 m-1">
+          <td className="border-gray-light border p-1 m-1">
             {editedTask && editedTask._id === task._id ? (
-              <input
-                className="placeholder:italic  block bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-5"
-                type="date"
-                name="deadline"
-                value={editedTask.deadline}
-                onChange={(e) =>
+              <DatePicker
+                className="placeholder:italic block bg-white border rounded-md py-2 pl-9 shadow-sm sm:text-sm m-5"
+                selected={
+                  editedTask.deadline
+                    ? new Date(
+                        isNaN(Date.parse(editedTask.deadline))
+                          ? dateService.formatTodaysDate()
+                          : editedTask.deadline
+                      )
+                    : null
+                }
+                onChange={(date) =>
                   setEditedTask((prev) => ({
                     ...prev,
-                    deadline: e.target.value,
+                    deadline: date,
                   }))
                 }
+                placeholderText="Select a date"
+                dateFormat="dd/MM/yyyy"
               />
             ) : (
-              <p>{task.deadline}</p>
+              <p>
+                {task.deadline instanceof Date
+                  ? dateService.formatDate(task.deadline)
+                  : ""}
+              </p>
             )}
           </td>
+
           <td className="border-gray-light border">
             <button
               className={`rounded-full shadow text-xl p-2 m-2 ${
@@ -227,11 +254,8 @@ const TodoItem = ({ todoList, setTodoList }) => {
                   Edit
                 </button>
                 <button
-                  className={`rounded-full bg-red shadow text-xl p-2 m-2 ${
-                    task.disabled ? "cursor-not-allowed" : ""
-                  }`}
+                  className="rounded-full bg-red shadow text-xl p-2 m-2"
                   onClick={() => deleteTask(task._id)}
-                  disabled={task.disabled}
                 >
                   Delete
                 </button>

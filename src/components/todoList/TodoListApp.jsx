@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import TodoItem from "../todoItem/TodoItem";
 
@@ -66,12 +68,12 @@ const TodoListApp = () => {
             setNewTask({ ...newTask, description: e.target.value })
           }
         />
-        <input
-          className="placeholder:italic  block bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-5"
-          type="date"
-          name="deadline"
-          value={newTask.deadline}
-          onChange={(e) => setNewTask({ ...newTask, deadline: e.target.value })}
+        <DatePicker
+          className="placeholder:italic block bg-white border rounded-md py-2 pl-9 shadow-sm sm:text-sm m-5"
+          selected={newTask.deadline} // Use "selected" prop to control the date
+          onChange={(date) => setNewTask({ ...newTask, deadline: date })}
+          placeholderText="Select a date"
+          dateFormat="dd/MM/yyyy"
         />
 
         <button
@@ -98,7 +100,11 @@ const TodoListApp = () => {
         </table>
       </div>
 
-      {isAllTasksCompleted && <p>All tasks are completed!</p>}
+      {isAllTasksCompleted && (
+        <p className="justify-center text-xl align-center">
+          All tasks are completed!
+        </p>
+      )}
     </section>
   );
 };
