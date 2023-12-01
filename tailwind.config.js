@@ -2,23 +2,27 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    fontSize: {
-      xs: ".75rem",
-      sm: ".875rem",
-      tiny: ".875rem",
-      base: "1rem",
-      lg: "1.125rem",
-      xl: "1.25rem",
-      "2xl": "1.5rem",
-      "3xl": "1.875rem",
-      "4xl": "2.25rem",
-      "5xl": "3rem",
-      "6xl": "4rem",
-      "7xl": "5rem",
+    colors: {
+      yellow: "#fff03b",
+      "gray-light": "#d8d8d8",
+      black: "#000",
+      "gray-dark": "#273444",
+      gray: "#8492a6",
+      red: "#FA8E73",
+      green: "#92DB5E",
+      white: "#FFFFFF",
     },
-    fontSmoothing: ["hover", "focus"],
-    spacing: {
-      13: "3.25rem",
+    fontSize: {
+      "5xl": "48px",
+      "2xl": "30px",
+      xl: "18px",
+    },
+    fontFamily: {
+      montserrat: ["Montserrat", "sans-serif"],
+    },
+    fontWeight: {
+      "2xl": "600",
+      "5xl": "800",
     },
   },
   plugins: [],
