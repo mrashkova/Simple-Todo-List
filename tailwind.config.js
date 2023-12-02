@@ -14,8 +14,9 @@ export default {
     },
     fontSize: {
       "5xl": "48px",
-      "2xl": "30px",
-      xl: "18px",
+      "2xl": "24px",
+      xl: "16px",
+      l: "14px",
     },
     fontFamily: {
       montserrat: ["Montserrat", "sans-serif"],

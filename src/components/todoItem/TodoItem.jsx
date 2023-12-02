@@ -34,10 +34,10 @@ const TodoItem = ({ todoList, setTodoList }) => {
           } ${taskService.isTaskExpired(task) ? "disabled-task" : ""}`}
         >
           {/* Title */}
-          <td className="border-gray-light border p-1 m-1">
+          <td className="border-gray-light border  w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <input
-                className="placeholder:italic block bg-white border rounded-md py-2 pl-9 shadow-sm sm:text-sm m-5"
+                className="placeholder:italic block border border-gray-light rounded-md w-full px-2"
                 type="text"
                 name="title"
                 value={editedTask.title}
@@ -53,10 +53,10 @@ const TodoItem = ({ todoList, setTodoList }) => {
             )}
           </td>
           {/* Description */}
-          <td className="border-gray-light border p-1 m-1">
+          <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <input
-                className="placeholder:italic  block bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-5"
+                className="placeholder:italic block border border-gray-light rounded-md w-full px-2"
                 type="text"
                 name="description"
                 value={editedTask.description}
@@ -73,10 +73,10 @@ const TodoItem = ({ todoList, setTodoList }) => {
             )}
           </td>
           {/* Deadline input */}
-          <td className="border-gray-light border p-1 m-1">
+          <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <DatePicker
-                className="placeholder:italic block bg-white border rounded-md py-2 pl-9 shadow-sm sm:text-sm m-5"
+                className="placeholder:italic block border border-gray-light rounded-md w-full px-2"
                 selected={
                   editedTask.deadline
                     ? new Date(
@@ -102,9 +102,9 @@ const TodoItem = ({ todoList, setTodoList }) => {
             )}
           </td>
 
-          <td className="border-gray-light border">
+          <td className="border-gray-light border  w-[250px]">
             <button
-              className={`rounded-full shadow text-xl p-2 m-2 ${
+              className={`rounded-full shadow text-xl p-2  ${
                 task.completed
                   ? "bg-green text-gray-800 "
                   : taskService.isTaskExpired(task)
@@ -127,13 +127,14 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 : "Uncompleted"}
             </button>
           </td>
-          <td>
+
+          <td className="w-[250px]">
             {/* Toggle between Edit & Delete / Save & Cancel */}
             {!editedTask || editedTask._id !== task._id ? (
               <>
                 {/* Edit Button */}
                 <button
-                  className="rounded-full bg-yellow shadow text-xl p-2 m-2"
+                  className="rounded-full bg-yellow shadow text-xl p-2 "
                   onClick={() =>
                     taskService.editTask(task._id, todoList, setEditedTask)
                   }
@@ -142,7 +143,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 </button>
                 {/* Delete Button */}
                 <button
-                  className="rounded-full bg-red shadow text-xl p-2 m-2"
+                  className="rounded-full bg-red shadow text-xl p-2 m-1"
                   onClick={() =>
                     taskService.deleteTask(task._id, todoList, setTodoList)
                   }
@@ -154,7 +155,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <>
                 {/* Save Button */}
                 <button
-                  className="rounded-full bg-green shadow text-xl p-2 m-2"
+                  className="rounded-full bg-green shadow text-xl p-2 "
                   onClick={() =>
                     taskService.saveEditedTask(
                       task._id,
@@ -169,7 +170,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 </button>
                 {/* Cancel Button */}
                 <button
-                  className="rounded-full bg-red shadow text-xl p-2 m-2"
+                  className="rounded-full bg-red shadow text-xl p-2 m-1"
                   onClick={() => setEditedTask(null)}
                 >
                   Cancel

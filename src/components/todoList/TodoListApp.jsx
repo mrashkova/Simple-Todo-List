@@ -48,10 +48,11 @@ const TodoListApp = () => {
   const isAllTasksCompleted = isTodoListCompleted(todoList);
 
   return (
-    <section className="font-montserrat justify-center">
-      <div className="m-2 flex justify-center border rounded-md ">
+    <section className="font-montserrat justify-center grid place-items-center">
+      {/* Add Task */}
+      <div className="rounded-md border border-gray-light border-2 text-center 	w-fit">
         <input
-          className="placeholder:italic  block bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-5"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
           type="text"
           name="title"
           placeholder="Title"
@@ -59,7 +60,7 @@ const TodoListApp = () => {
           onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         />
         <input
-          className="placeholder:italic  block bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-5"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
           type="text"
           name="description"
           placeholder="Description"
@@ -69,7 +70,7 @@ const TodoListApp = () => {
           }
         />
         <DatePicker
-          className="placeholder:italic block bg-white border rounded-md py-2 pl-9 shadow-sm sm:text-sm m-5"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
           selected={newTask.deadline} // Use "selected" prop to control the date
           onChange={(date) => setNewTask({ ...newTask, deadline: date })}
           placeholderText="Select a date"
@@ -77,24 +78,32 @@ const TodoListApp = () => {
         />
 
         <button
-          className="rounded-full bg-yellow shadow text-xl p-2 m-3"
+          className="rounded-full bg-yellow shadow text-xl p-2 m-2"
           onClick={addTask}
         >
           Add Task
         </button>
       </div>
-      <div className="m-3 p-3 grid items-center">
-        <table className="rounded-md border border-gray-light border-2 text-center">
+
+      {/* Table */}
+      <div className="m-1 p-3 grid items-center w-full">
+        <table className="rounded-md border border-gray-light border-2 text-center 	w-fit">
           <thead className="text-2xl ">
-            <tr className="border-gray-light border  p-3 m-3">
-              <th className="border-gray-light border ">Title</th>
-              <th className="border-gray-light border">Description</th>
-              <th className="border-gray-light border ">Deadline</th>
-              <th className="border-gray-light border ">Status</th>
-              <th className="border-gray-light border ">Actions</th>
+            <tr className="border-gray-light border">
+              <th className="border-gray-light border m-1 w-[250px]">Title</th>
+              <th className="border-gray-light border  m-1 w-[250px]">
+                Description
+              </th>
+              <th className="border-gray-light border  m-1 w-[250px]">
+                Deadline
+              </th>
+              <th className="border-gray-light border m-1 w-[250px]">Status</th>
+              <th className="border-gray-light border m-1 w-[250px]">
+                Actions
+              </th>
             </tr>
           </thead>
-          <tbody className="text-xl">
+          <tbody className="text-l">
             <TodoItem todoList={todoList} setTodoList={setTodoList} />
           </tbody>
         </table>
@@ -102,12 +111,14 @@ const TodoListApp = () => {
 
       {todoList.length > 0 ? (
         isAllTasksCompleted ? (
-          <p className="justify-center text-xl align-center">
+          <p className="justify-center text-2xl align-center ">
             All tasks are completed!
           </p>
         ) : null
       ) : (
-        <p className="text-xl">There are no tasks!</p>
+        <p className="justify-center text-2xl align-center ">
+          There are no tasks!
+        </p>
       )}
     </section>
   );
