@@ -32,6 +32,12 @@ Install my-project with npm
   npm install
 ```
 
+4. Run the application
+
+```
+npm run dev
+```
+
 Open http://localhost:5173/ in your browser to view the app.
 
 Other syntaxes:
