@@ -33,17 +33,18 @@ const TodoItem = ({ todoList, setTodoList }) => {
             task.completed ? "line-through text-gray-500" : ""
           } ${taskService.isTaskExpired(task) ? "disabled-task" : ""}`}
         >
+          {/* Title */}
           <td className="border-gray-light border p-1 m-1">
             {editedTask && editedTask._id === task._id ? (
               <input
-                className="placeholder:italic  block bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-5"
+                className="placeholder:italic block bg-white border rounded-md py-2 pl-9 shadow-sm sm:text-sm m-5"
                 type="text"
                 name="title"
                 value={editedTask.title}
                 onChange={(e) =>
                   setEditedTask((prev) => ({
                     ...prev,
-                    title: e.target.value,
+                    title: e.target.value !== "" ? e.target.value : prev.title,
                   }))
                 }
               />
@@ -51,6 +52,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p>{task.title}</p>
             )}
           </td>
+          {/* Description */}
           <td className="border-gray-light border p-1 m-1">
             {editedTask && editedTask._id === task._id ? (
               <input
@@ -61,7 +63,8 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 onChange={(e) =>
                   setEditedTask((prev) => ({
                     ...prev,
-                    description: e.target.value,
+                    description:
+                      e.target.value !== "" ? e.target.value : prev.description,
                   }))
                 }
               />
@@ -69,6 +72,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p>{task.description}</p>
             )}
           </td>
+          {/* Deadline input */}
           <td className="border-gray-light border p-1 m-1">
             {editedTask && editedTask._id === task._id ? (
               <DatePicker
@@ -85,18 +89,16 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 onChange={(date) =>
                   setEditedTask((prev) => ({
                     ...prev,
-                    deadline: date,
+                    deadline: date !== null ? date : prev.deadline,
                   }))
                 }
                 placeholderText="Select a date"
                 dateFormat="dd/MM/yyyy"
+                showYearDropdown
+                showMonthDropdown
               />
             ) : (
-              <p>
-                {task.deadline instanceof Date
-                  ? dateService.formatDate(task.deadline)
-                  : ""}
-              </p>
+              <p>{task.deadline}</p>
             )}
           </td>
 

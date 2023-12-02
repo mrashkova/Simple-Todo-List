@@ -83,7 +83,7 @@ const TodoListApp = () => {
           Add Task
         </button>
       </div>
-      <div className="m-3 p-3 grid items-center  ">
+      <div className="m-3 p-3 grid items-center">
         <table className="rounded-md border border-gray-light border-2 text-center">
           <thead className="text-2xl ">
             <tr className="border-gray-light border  p-3 m-3">
@@ -100,10 +100,14 @@ const TodoListApp = () => {
         </table>
       </div>
 
-      {isAllTasksCompleted && (
-        <p className="justify-center text-xl align-center">
-          All tasks are completed!
-        </p>
+      {todoList.length > 0 ? (
+        isAllTasksCompleted ? (
+          <p className="justify-center text-xl align-center">
+            All tasks are completed!
+          </p>
+        ) : null
+      ) : (
+        <p className="text-xl">There are no tasks!</p>
       )}
     </section>
   );
