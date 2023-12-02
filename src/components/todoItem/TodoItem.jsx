@@ -4,6 +4,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import * as dateService from "../../services/dateService";
+import * as taskService from "../../services/taskService";
+
+import { sampleTodoList } from "../../constants/todoConstants";
 
 const TodoItem = ({ todoList, setTodoList }) => {
   const [editedTask, setEditedTask] = useState(null);
@@ -12,42 +15,6 @@ const TodoItem = ({ todoList, setTodoList }) => {
     const storedTodoList = JSON.parse(localStorage.getItem("todoList")) || [];
 
     if (storedTodoList.length === 0) {
-      const sampleTodoList = [
-        {
-          _id: uuidv4(),
-          title: "Invite Mariya for a first interview",
-          description: "Arrange a meeting.",
-          deadline: dateService.formatExpiredDate(),
-          completed: true,
-          disabled: true,
-        },
-        {
-          _id: uuidv4(),
-          title: "Check Mariya's task",
-          description: "Check the code, test it, run it.",
-          deadline: dateService.formatTodaysDate(),
-          completed: false,
-          disabled: false,
-        },
-        {
-          _id: uuidv4(),
-          title: "Call Mariya",
-          description: "Invite her for a second interview.",
-          deadline: dateService.formatTodaysDate(),
-          completed: false,
-          disabled: false,
-        },
-
-        {
-          _id: uuidv4(),
-          title: "Invite other candidates",
-          description: "Disabled Task",
-          deadline: dateService.formatExpiredDate(),
-          completed: false,
-          disabled: true,
-        },
-      ];
-
       setTodoList(sampleTodoList);
     } else {
       setTodoList(storedTodoList);
@@ -57,92 +24,6 @@ const TodoItem = ({ todoList, setTodoList }) => {
     localStorage.setItem("todoList", JSON.stringify(todoList));
   }, [todoList]);
 
-  const editTask = (taskId) => {
-    setEditedTask({ ...todoList.find((task) => task._id === taskId) });
-  };
-
-  const saveEditedTask = (taskId) => {
-    const updatedTodoList = todoList.map((task) =>
-      task._id === taskId ? { ...task, ...editedTask } : task
-    );
-
-    setTodoList(updatedTodoList);
-    checkTodoListCompletion(updatedTodoList);
-    setEditedTask(null);
-  };
-
-  const deleteTask = (taskId) => {
-    const updatedTodoList = todoList.filter((task) => task._id !== taskId);
-    setTodoList(updatedTodoList);
-  };
-
-  const completeTask = (taskId) => {
-    const taskToComplete = todoList.find((task) => task._id === taskId);
-
-    if (!isTaskExpired(taskToComplete)) {
-      const updatedTodoList = todoList.map((task) =>
-        task._id === taskId ? { ...task, completed: !task.completed } : task
-      );
-
-      setTodoList(updatedTodoList);
-      checkTodoListCompletion(updatedTodoList);
-    } else {
-      const updatedTodoList = todoList.map((task) =>
-        task._id === taskId
-          ? {
-              ...task,
-              completed: false,
-              // disabled: false,
-            }
-          : task
-      );
-
-      setTodoList(updatedTodoList);
-      checkTodoListCompletion(updatedTodoList);
-    }
-  };
-
-  const uncompleteTask = (taskId) => {
-    const updatedTodoList = todoList.map((task) =>
-      task._id === taskId && task.completed
-        ? { ...task, completed: false }
-        : task
-    );
-
-    setTodoList(updatedTodoList);
-    uncompleteTodoList();
-  };
-
-  const checkTodoListCompletion = (updatedTodoList) => {
-    const allCompleted = updatedTodoList.every((task) => task.completed);
-    if (allCompleted) {
-      setTodoList((prevTodoList) =>
-        prevTodoList.map((task) => ({ ...task, completed: true }))
-      );
-    }
-  };
-
-  const uncompleteTodoList = () => {
-    const anyTaskCompleted = todoList.some((task) => task.completed);
-    if (!anyTaskCompleted) {
-      setTodoList((prevTodoList) =>
-        prevTodoList.map((task) => ({ ...task, completed: false }))
-      );
-    }
-  };
-
-  const isTaskExpired = (task) => {
-    const deadlineDate = new Date(task.deadline);
-    const currentDate = new Date();
-
-    return (
-      (deadlineDate.getFullYear() === currentDate.getFullYear() &&
-        deadlineDate.getMonth() === currentDate.getMonth() &&
-        deadlineDate.getDate() < currentDate.getDate()) ||
-      task.disabled
-    );
-  };
-
   return (
     <>
       {todoList.map((task) => (
@@ -150,7 +31,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
           key={task._id}
           className={`border-gray-light border ${
             task.completed ? "line-through text-gray-500" : ""
-          } ${isTaskExpired(task) ? "disabled-task" : ""}`}
+          } ${taskService.isTaskExpired(task) ? "disabled-task" : ""}`}
         >
           <td className="border-gray-light border p-1 m-1">
             {editedTask && editedTask._id === task._id ? (
@@ -224,50 +105,67 @@ const TodoItem = ({ todoList, setTodoList }) => {
               className={`rounded-full shadow text-xl p-2 m-2 ${
                 task.completed
                   ? "bg-green text-gray-800 "
-                  : isTaskExpired(task)
+                  : taskService.isTaskExpired(task)
                   ? "bg-gray-dark text-white cursor-not-allowed"
                   : "bg-gray-light"
               }`}
               onClick={() =>
-                isTaskExpired(task)
+                taskService.isTaskExpired(task)
                   ? null
                   : task.completed
-                  ? uncompleteTask(task._id)
-                  : completeTask(task._id)
+                  ? taskService.uncompleteTask(task._id, todoList, setTodoList)
+                  : taskService.completeTask(task._id, todoList, setTodoList)
               }
-              disabled={isTaskExpired(task)}
+              disabled={taskService.isTaskExpired(task)}
             >
               {task.completed
                 ? "Completed"
-                : isTaskExpired(task)
+                : taskService.isTaskExpired(task)
                 ? "Expired!"
                 : "Uncompleted"}
             </button>
           </td>
           <td>
+            {/* Toggle between Edit & Delete / Save & Cancel */}
             {!editedTask || editedTask._id !== task._id ? (
               <>
+                {/* Edit Button */}
                 <button
                   className="rounded-full bg-yellow shadow text-xl p-2 m-2"
-                  onClick={() => editTask(task._id)}
+                  onClick={() =>
+                    taskService.editTask(task._id, todoList, setEditedTask)
+                  }
                 >
                   Edit
                 </button>
+                {/* Delete Button */}
                 <button
                   className="rounded-full bg-red shadow text-xl p-2 m-2"
-                  onClick={() => deleteTask(task._id)}
+                  onClick={() =>
+                    taskService.deleteTask(task._id, todoList, setTodoList)
+                  }
                 >
                   Delete
                 </button>
               </>
             ) : (
               <>
+                {/* Save Button */}
                 <button
                   className="rounded-full bg-green shadow text-xl p-2 m-2"
-                  onClick={() => saveEditedTask(task._id)}
+                  onClick={() =>
+                    taskService.saveEditedTask(
+                      task._id,
+                      todoList,
+                      setTodoList,
+                      editedTask,
+                      setEditedTask
+                    )
+                  }
                 >
                   Save
                 </button>
+                {/* Cancel Button */}
                 <button
                   className="rounded-full bg-red shadow text-xl p-2 m-2"
                   onClick={() => setEditedTask(null)}
