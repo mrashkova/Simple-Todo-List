@@ -1,8 +1,74 @@
-# React + Vite
+# Todo List Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple Todo List application built with React.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Add, edit, and delete tasks.
+- Set deadlines for tasks.
+- Mark tasks as completed.
+- View a list of tasks with their details.
+
+## Installation
+
+Install my-project with npm
+
+1. Clone the repository:
+
+```bash
+  git clone https://github.com/mrashkova/Simple-Todo-List
+  npm run dev
+```
+
+2. Navigate to the project directory:
+
+```bash
+  cd Simple-Todo-List
+```
+
+3. Install dependencies:
+
+```
+  npm install
+```
+
+Open http://localhost:5173/ in your browser to view the app.
+
+Other syntaxes:
+
+To kill/stop the server
+
+```
+Ctrl + C
+```
+
+## Built with
+
+- [React](https://react.dev/)
+- [Tailwindcss](https://tailwindcss.com/)
+
+## Usage
+
+- Add a new task by entering the title, description, and deadline.
+- Edit a task by clicking the "Edit" button.
+- Delete a task by clicking the "Delete" button.
+- Mark a task as completed by clicking the "Completed" button.
+
+## Folder Structure
+
+- src/components: Contains React components.
+- src/constants: Contains constant data.
+- src/services: Contains utility functions.
+- src/App.js: Main application component.
+- src/index.js: Entry point of the application.
+
+## Application Requirements
+
+1. Node.js
+2. Other packages listed in package.json
+
+## Contact
+
+Mariya Rashkova - mrashkkova@gmail.com
+
+Project Link: [https://github.com/mrashkova/Simple-Todo-List](https://github.com/mrashkova/Simple-Todo-List)
