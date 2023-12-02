@@ -14,12 +14,18 @@ const TodoItem = ({ todoList, setTodoList }) => {
   useEffect(() => {
     const storedTodoList = JSON.parse(localStorage.getItem("todoList")) || [];
 
-    if (storedTodoList.length === 0) {
+    const formattedTodoList = storedTodoList.map((task) => ({
+      ...task,
+      deadline: dateService.formatDate(new Date(task.deadline), "MM/dd/yyyy"),
+    }));
+
+    if (formattedTodoList.length === 0) {
       setTodoList(sampleTodoList);
     } else {
-      setTodoList(storedTodoList);
+      setTodoList(formattedTodoList);
     }
   }, [setTodoList]);
+
   useEffect(() => {
     localStorage.setItem("todoList", JSON.stringify(todoList));
   }, [todoList]);
@@ -34,10 +40,11 @@ const TodoItem = ({ todoList, setTodoList }) => {
           } ${taskService.isTaskExpired(task) ? "disabled-task" : ""}`}
         >
           {/* Title */}
-          <td className="border-gray-light border  w-[250px]">
+
+          <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <input
-                className="placeholder:italic block border border-gray-light rounded-md w-full px-2"
+                className="placeholder:italic block border border-gray-light rounded-md w-full px-2  text-center"
                 type="text"
                 name="title"
                 value={editedTask.title}
@@ -49,14 +56,14 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 }
               />
             ) : (
-              <p>{task.title}</p>
+              <p className="m-0 text-center">{task.title}</p>
             )}
           </td>
           {/* Description */}
           <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <input
-                className="placeholder:italic block border border-gray-light rounded-md w-full px-2"
+                className="placeholder:italic block border border-gray-light rounded-md w-full px-2  text-center"
                 type="text"
                 name="description"
                 value={editedTask.description}
@@ -69,14 +76,14 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 }
               />
             ) : (
-              <p>{task.description}</p>
+              <p className="m-0 text-center">{task.description}</p>
             )}
           </td>
           {/* Deadline input */}
           <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <DatePicker
-                className="placeholder:italic block border border-gray-light rounded-md w-full px-2"
+                className="placeholder:italic block border border-gray-light rounded-md w-full px-2 text-center"
                 selected={
                   editedTask.deadline
                     ? new Date(
@@ -93,12 +100,16 @@ const TodoItem = ({ todoList, setTodoList }) => {
                   }))
                 }
                 placeholderText="Select a date"
-                dateFormat="dd/MM/yyyy"
+                dateFormat="MM/dd/yyyy"
                 showYearDropdown
                 showMonthDropdown
               />
             ) : (
-              <p>{task.deadline}</p>
+              <p className="m-0 text-center">
+                {task.deadline instanceof Date
+                  ? dateService.formatDate(task.deadline, "MM/dd/yyyy")
+                  : task.deadline}
+              </p>
             )}
           </td>
 
@@ -111,14 +122,18 @@ const TodoItem = ({ todoList, setTodoList }) => {
                   ? "bg-gray-dark text-white cursor-not-allowed"
                   : "bg-gray-light"
               }`}
-              onClick={() =>
-                taskService.isTaskExpired(task)
-                  ? null
-                  : task.completed
-                  ? taskService.uncompleteTask(task._id, todoList, setTodoList)
-                  : taskService.completeTask(task._id, todoList, setTodoList)
-              }
-              disabled={taskService.isTaskExpired(task)}
+              onClick={() => {
+                if (taskService.isTaskExpired(task) || task.completed) {
+                  return; // Task is expired or already completed, prevent uncompletion
+                }
+
+                // Task is not expired and not completed, toggle completion
+                const updatedTodoList = todoList.map((t) =>
+                  t._id === task._id ? { ...t, completed: true } : t
+                );
+                setTodoList(updatedTodoList);
+              }}
+              disabled={taskService.isTaskExpired(task) || task.completed}
             >
               {task.completed
                 ? "Completed"

@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import * as dateService from "../../services/dateService";
+
 import TodoItem from "../todoItem/TodoItem";
 
 const TodoListApp = () => {
@@ -26,6 +28,9 @@ const TodoListApp = () => {
       const addedTask = {
         _id: uuidv4(),
         ...newTask,
+        deadline: isExpired
+          ? newTask.deadline // Keep the original format if expired
+          : dateService.formatDate(new Date(newTask.deadline), "MM/dd/yyyy"),
         completed: false,
         disabled: isExpired,
       };
@@ -35,7 +40,7 @@ const TodoListApp = () => {
       setNewTask({
         title: "",
         description: "",
-        deadline: "",
+        deadline: null,
       });
     } else {
       alert("Please fill all fields.");
@@ -71,10 +76,10 @@ const TodoListApp = () => {
         />
         <DatePicker
           className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
-          selected={newTask.deadline} // Use "selected" prop to control the date
+          selected={newTask.deadline ? new Date(newTask.deadline) : null}
           onChange={(date) => setNewTask({ ...newTask, deadline: date })}
           placeholderText="Select a date"
-          dateFormat="dd/MM/yyyy"
+          dateFormat="MM/dd/yyyy"
         />
 
         <button

@@ -1,6 +1,18 @@
+import * as dateService from "../services/dateService";
+
 // Edit
 export const editTask = (taskId, todoList, setEditedTask) => {
-  setEditedTask({ ...todoList.find((task) => task._id === taskId) });
+  const taskToEdit = todoList.find((task) => task._id === taskId);
+
+  const formattedDeadline = dateService.formatDate(
+    new Date(taskToEdit.deadline),
+    "MM/dd/yyyy"
+  );
+
+  setEditedTask({
+    ...taskToEdit,
+    deadline: formattedDeadline,
+  });
 };
 
 // Save the editted task
