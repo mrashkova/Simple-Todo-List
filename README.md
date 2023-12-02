@@ -17,7 +17,6 @@ Install my-project with npm
 
 ```bash
   git clone https://github.com/mrashkova/Simple-Todo-List
-  npm run dev
 ```
 
 2. Navigate to the project directory:
