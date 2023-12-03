@@ -115,11 +115,11 @@ const TodoItem = ({ todoList, setTodoList }) => {
           </td>
 
           {/* Status button */}
-          <td className="border-gray-light border w-[250px]">
+          <td className="border-gray-light border w-[250px] ">
             <button
-              className={`rounded-full shadow text-xl p-2  ${
+              className={`rounded-full shadow text-xl p-2 md:text-m md:p-1  ${
                 task.completed
-                  ? "bg-green text-gray-800"
+                  ? "bg-green text-gray-800 "
                   : taskService.isTaskExpired(task)
                   ? "bg-gray-dark text-white cursor-not-allowed"
                   : "bg-gray-light"
@@ -135,11 +135,21 @@ const TodoItem = ({ todoList, setTodoList }) => {
               }}
               disabled={taskService.isTaskExpired(task)}
             >
-              {task.completed
-                ? "Completed"
-                : taskService.isTaskExpired(task)
-                ? "Expired!"
-                : "Uncompleted"}
+              <span className=" sm:hidden">
+                {task.completed
+                  ? "Completed"
+                  : taskService.isTaskExpired(task)
+                  ? "Expired"
+                  : "Uncompleted"}
+              </span>
+
+              <span className="hidden sm:inline">
+                {task.completed
+                  ? "✓"
+                  : taskService.isTaskExpired(task)
+                  ? "✗"
+                  : "✗"}
+              </span>
             </button>
           </td>
 
@@ -149,7 +159,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <>
                 {/* Edit Button */}
                 <button
-                  className="rounded-full bg-yellow shadow text-xl p-2 "
+                  className="rounded-full bg-yellow shadow text-xl p-2 md:text-m md:p-1"
                   onClick={() =>
                     taskService.editTask(task._id, todoList, setEditedTask)
                   }
@@ -158,7 +168,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 </button>
                 {/* Delete Button */}
                 <button
-                  className="rounded-full bg-red shadow text-xl p-2 m-1"
+                  className="rounded-full bg-red shadow text-xl p-2 m-1 md:text-m md:p-1"
                   onClick={() =>
                     taskService.deleteTask(task._id, todoList, setTodoList)
                   }
@@ -170,7 +180,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <>
                 {/* Save Button */}
                 <button
-                  className="rounded-full bg-green shadow text-xl p-2 "
+                  className="rounded-full bg-green shadow text-xl p-2 md:text-m md:p-1"
                   onClick={() =>
                     taskService.saveEditedTask(
                       task._id,
@@ -185,7 +195,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
                 </button>
                 {/* Cancel Button */}
                 <button
-                  className="rounded-full bg-red shadow text-xl p-2 m-1"
+                  className="rounded-full bg-red shadow text-xl p-2 m-1 md:text-m md:p-1"
                   onClick={() => setEditedTask(null)}
                 >
                   Cancel

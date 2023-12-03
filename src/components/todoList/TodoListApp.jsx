@@ -56,11 +56,11 @@ const TodoListApp = () => {
   const isAllTasksCompleted = isTodoListCompleted(todoList);
 
   return (
-    <section className="font-montserrat justify-center grid place-items-center">
+    <section className="font-montserrat justify-center grid place-items-center ">
       {/* Add Task */}
-      <div className="justify-center flex flex-row items-center rounded-md border border-gray-light border-2 text-center w-fit">
+      <div className="justify-center flex md:flex-row md:flex-col items-center rounded-md border border-gray-light border-2 text-center w-fit ">
         <input
-          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm sm:text-sm m-2 input-field"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm m-2 input-field md:text-l"
           type="text"
           name="title"
           placeholder="Title"
@@ -68,7 +68,7 @@ const TodoListApp = () => {
           onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         />
         <input
-          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm sm:text-sm m-2 input-field"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm m-2 input-field md:text-l"
           type="text"
           name="description"
           placeholder="Description"
@@ -78,7 +78,7 @@ const TodoListApp = () => {
           }
         />
         <DatePicker
-          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm sm:text-sm m-2 date-picker"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm  m-2 date-picker md:text-l"
           selected={newTask.deadline ? new Date(newTask.deadline) : null}
           onChange={(date) => setNewTask({ ...newTask, deadline: date })}
           placeholderText="Select a date"
@@ -93,7 +93,7 @@ const TodoListApp = () => {
         />
 
         <button
-          className="rounded-full bg-yellow shadow text-xl p-2 m-2"
+          className="rounded-full bg-yellow shadow text-xl p-2 m-2 md:text-l md:p-1 md:m-1"
           onClick={addTask}
         >
           Add Task
@@ -101,24 +101,28 @@ const TodoListApp = () => {
       </div>
 
       {/* Table */}
-      <div className="m-1 p-3 grid items-center w-full">
-        <table className="rounded-md border border-gray-light border-2 text-center 	w-fit">
-          <thead className="text-2xl ">
+      <div className="m-1 p-3  w-full ">
+        <table className="rounded-md border border-gray-light border-2 text-center w-fit ">
+          <thead className="text-2xl md:text-l ">
             <tr className="border-gray-light border">
-              <th className="border-gray-light border m-1 w-[250px]">Title</th>
-              <th className="border-gray-light border  m-1 w-[250px]">
+              <th className="border-gray-light border m-1 w-[250px] md:w-[50px]">
+                Title
+              </th>
+              <th className="border-gray-light border  m-1 w-[250px] md:w-[50px]">
                 Description
               </th>
-              <th className="border-gray-light border  m-1 w-[250px]">
+              <th className="border-gray-light border  m-1 w-[250px] md:w-[50px]">
                 Deadline
               </th>
-              <th className="border-gray-light border m-1 w-[250px]">Status</th>
-              <th className="border-gray-light border m-1 w-[250px]">
+              <th className="border-gray-light border m-1 w-[250px] md:w-[50px]">
+                Status
+              </th>
+              <th className="border-gray-light border m-1 w-[250px] md:w-[50px]">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="text-l">
+          <tbody className="text-l md:text-m">
             <TodoItem todoList={todoList} setTodoList={setTodoList} />
           </tbody>
         </table>
@@ -127,12 +131,12 @@ const TodoListApp = () => {
       {/* Show text if todo list is completed or empty */}
       {todoList.length > 0 ? (
         isAllTasksCompleted ? (
-          <p className="justify-center text-2xl align-center ">
+          <p className="justify-center text-2xl align-center md:text-xl">
             All tasks are completed!
           </p>
         ) : null
       ) : (
-        <p className="justify-center text-2xl align-center ">
+        <p className="justify-center text-2xl align-center md:text-xl">
           There are no tasks!
         </p>
       )}
