@@ -64,8 +64,8 @@ Ctrl + C
 - src/components: Contains React components.
 - src/constants: Contains constant data.
 - src/services: Contains utility functions.
-- src/App.js: Main application component.
-- src/index.js: Entry point of the application.
+- src/App.jsx: Main application component.
+- src/main.jsx: Entry point of the application.
 
 ## Application Requirements
 
