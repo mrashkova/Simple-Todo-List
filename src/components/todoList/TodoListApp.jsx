@@ -15,12 +15,14 @@ const TodoListApp = () => {
     deadline: "",
   });
 
+  // Check if the deadline is expired
   const isDeadlineExpired = (deadline) => {
     const today = new Date();
     const taskDeadline = new Date(deadline);
     return today > taskDeadline;
   };
 
+  // Add
   const addTask = () => {
     if (newTask.title && newTask.description && newTask.deadline) {
       const isExpired = isDeadlineExpired(newTask.deadline);
@@ -47,6 +49,7 @@ const TodoListApp = () => {
     }
   };
 
+  // Check if the todo list is completed
   const isTodoListCompleted = (todoList) =>
     todoList.every((task) => task.completed);
 
@@ -55,9 +58,9 @@ const TodoListApp = () => {
   return (
     <section className="font-montserrat justify-center grid place-items-center">
       {/* Add Task */}
-      <div className="rounded-md border border-gray-light border-2 text-center 	w-fit">
+      <div className="justify-center flex flex-row items-center rounded-md border border-gray-light border-2 text-center w-fit">
         <input
-          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm sm:text-sm m-2 input-field"
           type="text"
           name="title"
           placeholder="Title"
@@ -65,7 +68,7 @@ const TodoListApp = () => {
           onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         />
         <input
-          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm sm:text-sm m-2 input-field"
           type="text"
           name="description"
           placeholder="Description"
@@ -75,11 +78,18 @@ const TodoListApp = () => {
           }
         />
         <DatePicker
-          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md py-2 pl-9 shadow-sm  sm:text-sm m-3"
+          className="rounded-md border border-gray-light placeholder:italic bg-white border rounded-md p-1 shadow-sm sm:text-sm m-2 date-picker"
           selected={newTask.deadline ? new Date(newTask.deadline) : null}
           onChange={(date) => setNewTask({ ...newTask, deadline: date })}
           placeholderText="Select a date"
           dateFormat="MM/dd/yyyy"
+          popperModifiers={{
+            preventOverflow: {
+              enabled: true,
+              escapeWithReference: false,
+              boundariesElement: "viewport",
+            },
+          }}
         />
 
         <button
@@ -114,6 +124,7 @@ const TodoListApp = () => {
         </table>
       </div>
 
+      {/* Show text if todo list is completed or empty */}
       {todoList.length > 0 ? (
         isAllTasksCompleted ? (
           <p className="justify-center text-2xl align-center ">

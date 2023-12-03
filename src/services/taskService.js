@@ -38,7 +38,7 @@ export const deleteTask = (taskId, todoList, setTodoList) => {
   setTodoList(updatedTodoList);
 };
 
-// Check if the task es expired and disable the Status button
+// Check if the task is expired and disable the Status button
 export const isTaskExpired = (task) => {
   const deadlineDate = new Date(task.deadline);
   const currentDate = new Date();
@@ -87,8 +87,8 @@ export const uncompleteTask = (taskId, todoList, setTodoList) => {
   uncompleteTodoList(updatedTodoList);
 };
 
-// Check if the todo list is completed
-export const completeTodoList = (updatedTodoList) => {
+// Check if the todo list is completed/uncompleted
+const completeTodoList = (updatedTodoList) => {
   const allCompleted = updatedTodoList.every((task) => task.completed);
   if (allCompleted) {
     return updatedTodoList.map((task) => ({ ...task, completed: true }));

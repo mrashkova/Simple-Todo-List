@@ -10,7 +10,6 @@ export const formatExpiredDate = () => {
 
 export const formatDate = (date) => {
   if (typeof date === "string") {
-    // If the input is a string, parse it into a Date object
     date = new Date(date);
   }
 

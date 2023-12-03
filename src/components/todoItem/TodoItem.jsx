@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,6 +10,7 @@ import { sampleTodoList } from "../../constants/todoConstants";
 const TodoItem = ({ todoList, setTodoList }) => {
   const [editedTask, setEditedTask] = useState(null);
 
+  // Show the sample todo list on first load
   useEffect(() => {
     const storedTodoList = JSON.parse(localStorage.getItem("todoList")) || [];
 
@@ -40,7 +40,6 @@ const TodoItem = ({ todoList, setTodoList }) => {
           } ${taskService.isTaskExpired(task) ? "disabled-task" : ""}`}
         >
           {/* Title */}
-
           <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <input
@@ -59,6 +58,7 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p className="m-0 text-center">{task.title}</p>
             )}
           </td>
+
           {/* Description */}
           <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
@@ -79,7 +79,8 @@ const TodoItem = ({ todoList, setTodoList }) => {
               <p className="m-0 text-center">{task.description}</p>
             )}
           </td>
-          {/* Deadline input */}
+
+          {/* Deadline */}
           <td className="border-gray-light border w-[250px]">
             {editedTask && editedTask._id === task._id ? (
               <DatePicker
@@ -113,27 +114,26 @@ const TodoItem = ({ todoList, setTodoList }) => {
             )}
           </td>
 
-          <td className="border-gray-light border  w-[250px]">
+          {/* Status button */}
+          <td className="border-gray-light border w-[250px]">
             <button
               className={`rounded-full shadow text-xl p-2  ${
                 task.completed
-                  ? "bg-green text-gray-800 "
+                  ? "bg-green text-gray-800"
                   : taskService.isTaskExpired(task)
                   ? "bg-gray-dark text-white cursor-not-allowed"
                   : "bg-gray-light"
               }`}
               onClick={() => {
-                if (taskService.isTaskExpired(task) || task.completed) {
-                  return; // Task is expired or already completed, prevent uncompletion
+                if (!taskService.isTaskExpired(task)) {
+                  // Task is not expired, toggle completion
+                  const updatedTodoList = todoList.map((t) =>
+                    t._id === task._id ? { ...t, completed: !t.completed } : t
+                  );
+                  setTodoList(updatedTodoList);
                 }
-
-                // Task is not expired and not completed, toggle completion
-                const updatedTodoList = todoList.map((t) =>
-                  t._id === task._id ? { ...t, completed: true } : t
-                );
-                setTodoList(updatedTodoList);
               }}
-              disabled={taskService.isTaskExpired(task) || task.completed}
+              disabled={taskService.isTaskExpired(task)}
             >
               {task.completed
                 ? "Completed"
@@ -143,8 +143,8 @@ const TodoItem = ({ todoList, setTodoList }) => {
             </button>
           </td>
 
+          {/* Toggle between Edit & Delete / Save & Cancel */}
           <td className="w-[250px]">
-            {/* Toggle between Edit & Delete / Save & Cancel */}
             {!editedTask || editedTask._id !== task._id ? (
               <>
                 {/* Edit Button */}
